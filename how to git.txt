@@ -1,0 +1,11 @@
+how to use git
+
+PULL before you make changes
+
+
+PUSH after you make changes
+
+
+you can do all of this from the tab below the search bar, the source control tab
+
+press the 3 dots to pull, and the big blue commit and push button to push.
