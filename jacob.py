@@ -53,3 +53,6 @@ print(thetavalmome)
 print(deflecvalmome)
 
         
+#Could be useful for josie, use this code to call file from given data: 
+# a = np.loadtxt('Data.csv', delimiter=',', skiprows = 1, dtype = 'i')
+# print(a)
