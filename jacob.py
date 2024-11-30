@@ -11,7 +11,7 @@ import matplotlib.pyplot as plt
 x, p, c1, c2, c3, c4, m0 = symbols('x p c1 c2 c3 c4 m0')
 #This could be our calculated function for the whole function. Just need to create a function that takes use case scenarios and returns the mgiven variable for
 #the function to use.
-mgiven = 
+mgiven = x**2
 class totalintegral:
     def __init__(self, x, p, m0):
         self.x = x
