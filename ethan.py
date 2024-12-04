@@ -1,6 +1,7 @@
 import matplotlib.pyplot as plt
 import numpy as np
 from PIL import Image
+import csv
 import urllib.request
 
 x = np.linspace(0, 2*np.pi, 100)
@@ -43,3 +44,13 @@ ax5.set_title('cos(x)')
 
 plt.tight_layout()
 plt.show()
+
+# Read the CSV file
+csv_url = 'https://raw.githubusercontent.com/NotInIreland/me241/refs/heads/main/Beam%20Table.csv'
+response = urllib.request.urlopen(csv_url)
+lines = [l.decode('utf-8') for l in response.readlines()]
+beam_table = list(csv.reader(lines))
+
+# Print the table
+for row in beam_table:
+    print(row)
