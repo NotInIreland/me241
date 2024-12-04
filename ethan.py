@@ -54,3 +54,9 @@ beam_table = list(csv.reader(lines))
 # Print the table
 for row in beam_table:
     print(row)
+
+# Read the CSV file with numpy
+csv_data = np.genfromtxt(csv_url, delimiter=',', skip_header=1, dtype=None, encoding='utf-8')
+
+# Print the numpy array
+print(csv_data)
