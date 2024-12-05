@@ -6,4 +6,6 @@ def I(l1, w1, hh, hw, w2, l2):
     term3=(w2*(l2**3))/12
     I=term1+term2+term3
     return I
-
+import os
+print(os.getcwd())
+np.loadtxt("/Users/josiesoles/Downloads/W flange beams sae table.csv", dtype=str ,delimiter=',')
