@@ -46,17 +46,8 @@ plt.tight_layout()
 plt.show()
 
 # Read the CSV file
-csv_url = 'https://raw.githubusercontent.com/NotInIreland/me241/refs/heads/main/Beam%20Table.csv'
-response = urllib.request.urlopen(csv_url)
-lines = [l.decode('utf-8') for l in response.readlines()]
-beam_table = list(csv.reader(lines))
-
-# Print the table
-for row in beam_table:
-    print(row)
-
+url = 'https://raw.githubusercontent.com/NotInIreland/me241/refs/heads/main/Beam%20Table.csv'
 # Read the CSV file with numpy
-csv_data = np.genfromtxt(csv_url, delimiter=',', skip_header=1, dtype=None, encoding='utf-8')
-
+csv_data = np.genfromtxt(url, delimiter=',', skip_header=1, dtype=None, encoding='utf-8')
 # Print the numpy array
 print(csv_data)
