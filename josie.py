@@ -9,3 +9,8 @@ def I(l1, w1, hh, hw, w2, l2):
 import os
 print(os.getcwd())
 np.loadtxt("/Users/josiesoles/Downloads/W flange beams sae table.csv", dtype=str ,delimiter=',')
+
+#pull url from github
+url = 'https://raw.githubusercontent.com/NotInIreland/me241/refs/heads/main/Beam%20Table.csv'
+#read the CSV file with numpy example
+csv_data = np.genfromtxt(url, delimiter=',', skip_header=1, dtype=None, encoding='utf-8')
