@@ -23,11 +23,10 @@ def I(dimension):
         w1 = float(width[i])
         wt1 = float(webThick[i])
         ft1 = float(fThick[i])
+        wh = d1-(2*ft1)
         if id[i] == dimension:
-            i1 = (w1 * (d1**3))/12
-            i2 = ((w1-wt1)*((d1 - 2 * ft1)**3))/12
-            I = i1 - i2
-        return I
+            I = 2*((ft1 * (w1**3))/12)+((wh*(wt1**3))/12)
+    return I
 
 def findbeam(x, p, m0, l, w, mgiven, E, I):
     beamtype = input("What type of beam are you solving for? Your options are cantilever(c)")
@@ -37,23 +36,31 @@ def findbeam(x, p, m0, l, w, mgiven, E, I):
     beamload = beamload.lower()
     if beamtype == 'c':
         if beamload == 'il':
+            l = input("What is the length of the beam (in ft)")
+            x = input("Where is the load on the beam, starting with 0 on the left side (in ft)")
+            p = input("What is the load on the beam in units of lbs")
             mgiven = (-p * l - p * x) / (E * I)
             return mgiven
         elif beamload == 'ul':
+            l = input("What is the length of the beam (in ft)")
+            x = input("Where do you want to measure the deflection of the beam (in ft)")
+            p = input("What is the magnitude of the distributed load on the beam in units of lbs / ft")
             mgiven = ((-w * (l - x)**2) / 2) / (E * I)
             return mgiven
         elif beamload == 'm':
+            l = input("What is the length of the beam (in ft)")
+            x = input("Where is the moment on the beam, starting with 0 on the left side (in ft)")
+            m0 = input("What is the applied moment on this beam, in units of ft * lbs")
             mgiven = (-m0) / (E * I)
             return mgiven
         else:
             return ValueError('You must select a beam and a load type, the given inputs possible are listed in the parenthesis')
        
-
 def slopetotalintegral(x, p, m0, l, w, mgiven, E, I):
     m = mgiven
-    theta = integrate(m, x) + c1
+    theta = integrate(m, l) + c1
     return theta
 
-def deflectotalintegral(x, p, theta, m0):
-    deflec = integrate(theta, x) + c2
+def deflectotalintegral(x, p, theta, m0, l, w, mgiven, E, I):
+    deflec = integrate(theta, l) + c2
     return deflec
