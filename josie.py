@@ -1,16 +1,28 @@
 #josie put your code here!
 import numpy as np
-def I(l1, w1, hh, hw, w2, l2):
-    term1=(w1*(l1**3))/12
-    term2=(hh*(hw**3))/12
-    term3=(w2*(l2**3))/12
-    I=term1+term2+term3
-    return I
 import os
 print(os.getcwd())
-np.loadtxt("/Users/josiesoles/Downloads/W flange beams sae table.csv", dtype=str ,delimiter=',')
 
-#pull url from github
-url = 'https://raw.githubusercontent.com/NotInIreland/me241/refs/heads/main/Beam%20Table.csv'
-#read the CSV file with numpy example
-csv_data = np.genfromtxt(url, delimiter=',', skip_header=1, dtype=None, encoding='utf-8')
+
+
+data = np.loadtxt("/Users/josiesoles/Downloads/W flange beams sae table.csv", dtype=str, skiprows=5, delimiter=',')
+id = data[:,0]
+d = data[:,1]
+w = data[:,2]
+wt = data[:,3]
+ft = data[:,4]
+n = len(id)
+
+def I(dimension):
+    for i in range(0, n):
+        d1 = float(d[i])
+        w1 = float(w[i])
+        wt1 = float(wt[i])
+        ft1 = float(ft[i])
+        if id[i] == dimension:
+            i1 = (w1 * (d1**3))/12
+            i2 = ((w1-wt1)*((d1 - 2 * ft1)**3))/12
+            I = i1 - i2
+    return I
+
+I('W 27 x 94')
