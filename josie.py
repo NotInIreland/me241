@@ -23,6 +23,9 @@ def I(dimension):
         wh = d1-(2*ft1)
         if id[i] == dimension:
             I = 2*((ft1 * (w1**3))/12)+((wh*(wt1**3))/12)
+            break
+        else:
+            I = 'Unreadable input. Please input dimesion of standard designation including spaces. Example: W # x #.'
     return I
 
 def W(dimension):
@@ -30,8 +33,11 @@ def W(dimension):
         weight1 = weight[i]
         if id[i] == dimension:
             W = float(weight1)
+            break
+        else:
+            W = 'Unreadable input. Please input dimesion of standard designation including spaces. Example: W # x #.'
     return W
 
-W('W 27 x 178')
+
 
 
