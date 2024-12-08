@@ -18,13 +18,14 @@ class beamselect:
         self.E = E
         self.I = I
     
+    data = np.loadtxt('https://raw.githubusercontent.com/NotInIreland/me241/refs/heads/main/W%20flange%20beams%20sae%20table.csv', dtype=str, skiprows=5, delimiter=',')
+    identification = data[:,0]
+    depth = data[:,1]
+    width = data[:,2]
+    webthickness = data[:,3]
+    flangethickness = data[:,4]
+    
     def I(dimension):
-        data = np.loadtxt('https://raw.githubusercontent.com/NotInIreland/me241/refs/heads/main/W%20flange%20beams%20sae%20table.csv', dtype=str, skiprows=5, delimiter=',')
-        identification = data[:,0]
-        depth = data[:,1]
-        width = data[:,2]
-        webthickness = data[:,3]
-        flangethickness = data[:,4]
         for i in range(0, len(id)):
             d1 = float(depth[i])
             w1 = float(width[i])
@@ -39,6 +40,7 @@ class beamselect:
     def findbeam(x, p, m0, l, w, mgiven, E, I):
         beamtype = input("What type of beam are you solving for? Your options are cantilever(c)")
         beamload = input("What kind of load is on the beam? Your options are intermediate load(IL), uniformly distributed load(UL), triangular distributed load(TDL), and moment(M)")
+        E = input("What is young's modulus for this beam (E value)? This is with assumed units of psi")
         beamtype = beamtype.lower()
         beamload = beamload.lower()
         if beamtype == 'c':
