@@ -11,6 +11,7 @@ depth = data[:,1]
 width = data[:,2]
 wThickness = data[:,3]
 fThickness = data[:,4]
+weight = data[:,6]
 n = len(id)
 
 def I(dimension):
@@ -24,4 +25,13 @@ def I(dimension):
             I = 2*((ft1 * (w1**3))/12)+((wh*(wt1**3))/12)
     return I
 
-I('W 27 x 178')
+def W(dimension):
+    for i in range(0, len(id)):
+        weight1 = weight[i]
+        if id[i] == dimension:
+            W = float(weight1)
+    return W
+
+W('W 27 x 178')
+
+
