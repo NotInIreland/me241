@@ -7,22 +7,21 @@ print(os.getcwd())
 
 data = np.loadtxt("/Users/josiesoles/Downloads/W flange beams sae table.csv", dtype=str, skiprows=5, delimiter=',')
 id = data[:,0]
-d = data[:,1]
-w = data[:,2]
-wt = data[:,3]
-ft = data[:,4]
+depth = data[:,1]
+width = data[:,2]
+wThickness = data[:,3]
+fThickness = data[:,4]
 n = len(id)
 
 def I(dimension):
     for i in range(0, n):
-        d1 = float(d[i])
-        w1 = float(w[i])
-        wt1 = float(wt[i])
-        ft1 = float(ft[i])
+        d1 = float(depth[i])
+        w1 = float(width[i])
+        wt1 = float(wThickness[i])
+        ft1 = float(fThickness[i])
+        wh = d1-(2*ft1)
         if id[i] == dimension:
-            i1 = (w1 * (d1**3))/12
-            i2 = ((w1-wt1)*((d1 - 2 * ft1)**3))/12
-            I = i1 - i2
+            I = 2*((ft1 * (w1**3))/12)+((wh*(wt1**3))/12)
     return I
 
-I('W 27 x 94')
+I('W 27 x 178')
