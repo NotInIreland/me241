@@ -26,7 +26,7 @@ beamType = 'simple'
 ax1 = fig.add_subplot(gs[0, :])
 fixed = 'https://raw.githubusercontent.com/NotInIreland/me241/refs/heads/main/fixed.png'
 img1 = urllib.request.urlopen(fixed)
-simple = 'https://raw.githubusercontent.com/NotInIreland/me241/refs/heads/main/simple.png'
+simple = 'https://raw.githubusercontent.com/NotInIreland/me241/refs/heads/main/simplebeam.png'
 img2 = urllib.request.urlopen(simple)
 
 if beamType == 'Fixed':
