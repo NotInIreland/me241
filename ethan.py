@@ -1,26 +1,64 @@
+%matplotlib widget
 import matplotlib.pyplot as plt
 import numpy as np
 from PIL import Image
-import csv
 import urllib.request
+from ipywidgets import interactive
+from IPython.display import display
 
 x = np.linspace(0, 2*np.pi, 100)
-f1 = np.sin(x)
-f2 = np.cos(x)
-f3 = np.sin(x)
-f4 = np.cos(x)
-f5 = np.tan(x)
+f1 = np.sin(x) #shear
+f2 = np.cos(x) #moment
+f3 = np.sin(x) #deflection
+f4 = np.cos(x) #slope
 
 fig = plt.figure(figsize=(12, 12))
 gs = fig.add_gridspec(3, 2)
 
+L=30
+fAt = 15
+
+beamType = 'simple'
+#beamType = 'Fixed'
+
+
 # Image plot
 ax1 = fig.add_subplot(gs[0, :])
-url = 'https://raw.githubusercontent.com/NotInIreland/me241/refs/heads/main/cantaliver_beam.png'
-response = urllib.request.urlopen(url)
-img = Image.open(response)
-ax1.imshow(img)
-ax1.axis('off')  # Hide axes for the image
+fixed = 'https://raw.githubusercontent.com/NotInIreland/me241/refs/heads/main/fixed.png'
+img1 = urllib.request.urlopen(fixed)
+simple = 'https://raw.githubusercontent.com/NotInIreland/me241/refs/heads/main/simple.png'
+img2 = urllib.request.urlopen(simple)
+
+if beamType == 'Fixed':
+    img = Image.open(img1)
+    title = 'Fixed Beam'
+else:
+    img = Image.open(img2)
+    ax1.set_title('Simple Beam')
+    title = 'Simple Beam'
+
+#457 end and 53 start, total lenght is 404
+def update(fAt):
+    ArrowXValue = 404 * (fAt / L) + 53
+    ax1.clear()
+    ax1.imshow(img)
+    ax1.set_xticks([])  # Remove x-axis ticks
+    ax1.set_yticks([])  # Remove y-axis ticks
+    ax1.set_title(title)
+    ax1.set_xlabel(f'{L}m Beam')
+    arrow_x, arrow_y = ArrowXValue, 130  # Coordinates where the arrow should point
+    arm_length = 20  # Length of the horizontal arm
+    ax1.plot([arrow_x-1, arrow_x-1], [arrow_y-5, arrow_y - 40], color='red', linewidth=2)
+    ax1.annotate(
+        '   F',  # Text for the arrow
+        xy=(arrow_x, arrow_y),  # End point of the arrow
+        xytext=(arrow_x, arrow_y - 20),  # Start point of the arrow (20 pixels above the end point)
+        arrowprops=dict(facecolor='red', shrink=0.05, width=2, headwidth=10)
+    )
+    fig.canvas.draw()
+
+interactive_plot = interactive(update, fAt=(0, 30, 1))
+display(interactive_plot)
 
 # Plot sin(x)
 ax2 = fig.add_subplot(gs[1, 0])
@@ -45,9 +83,3 @@ ax5.set_title('cos(x)')
 plt.tight_layout()
 plt.show()
 
-# Read the CSV file
-url = 'https://raw.githubusercontent.com/NotInIreland/me241/refs/heads/main/Beam%20Table.csv'
-# Read the CSV file with numpy
-csv_data = np.genfromtxt(url, delimiter=',', skip_header=1, dtype=None, encoding='utf-8')
-# Print the numpy array
-print(csv_data)
