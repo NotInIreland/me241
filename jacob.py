@@ -25,7 +25,7 @@ beamtype = beamtype.lower()
 beamload = beamload.lower()
 
 def I(dimension):
-    for i in range(0, len(id)):
+    for i in range(0, n):
         d1 = float(depth[i])
         w1 = float(width[i])
         wt1 = float(webThick[i])
@@ -33,63 +33,61 @@ def I(dimension):
         wh = d1-(2*ft1)
         if id[i] == dimension:
             I = 2*((ft1 * (w1**3))/12)+((wh*(wt1**3))/12)
+            break
+        else:
+            I = 'Unreadable input. Please input dimesion of standard designation including spaces. Example: W # x #.'
     return I
+
+print(I)
 
 def W(dimension):
     for i in range(0, len(id)):
         weight1 = weight[i]
         if id[i] == dimension:
             W = float(weight1)
+            break
+        else:
+            W = 'Unreadable input. Please input dimesion of standard designation including spaces. Example: W # x #.'
     return W
 
-def findbeam(x, p, m0, l, w, mgiven, E, I ):
-    if beamtype == 'c':
-        if beamload == 'il':
-            mgiven = (-p * l - p * x) / (E * I)
-            return mgiven
-        elif beamload == 'ul':
-            mgiven = ((-w * (l - x)**2) / 2) / (E * I)
-            return mgiven
-        elif beamload == 'm':
-            mgiven = (-m0) / (E * I)
-            return mgiven 
-        else:
-             return ValueError('You must select a beam and a load type, the given inputs possible are listed in the parenthesis')
+def slopecalculate(mgiven, E, I):
+    return integrate(mgiven / (E * I), x) + c1
+     
+def defleccalculate(slopeq):
+    return integrate(slopeq, x) + c2 
 
+def values(mgiven, E, I):
+    slopeq = slopecalculate(mgiven, E, I)
+    deflecq = defleccalculate(slopeq)
 
-def slope(x, p, m0, l, w, mgiven, E, I):
-    m = mgiven
-    theta = integrate(m, l) + c1
-    return theta
+    slopeb = slopeq.subs(x, 0)
+    deflecb = deflecq.subs(x, 0)
 
-def deflectotalintegral(x, p, theta, m0, l, w, mgiven, E, I):
-    deflec = integrate(theta, l) + c2
-    return deflec
+    c1val = solve(slopeb, c1)[0]
+    c2val = solve(deflecb, c2)[0]
 
-def values(l, w, x, p, m0):
-    if beamtype == 'c':
-        if beamload == 'il':
-            caltheta = slope.subs[(x, x1), (l, l1), (p, p1)]
-            return caltheta
-        elif beamload == 'ul':
-            caltheta = slope.subs[(x, x2), (l, l2), (w, w2)]
-            return caltheta
-        elif beamload == 'm':
-            caltheta = slope.subs[(x, x3), (l, l3), (m0, m03)]
-            return caltheta
+    slope = slopeq.subs(c1, c1val)
+    deflection = deflecq.subs(c2, c2val)
+    
+    return slope, deflection
 
 if beamtype == 'c':
     if beamload == 'il':
-        l1 = input("What is the length of the beam (in ft)")
-        x1 = input("Where is the load on the beam, starting with 0 on the left side (in ft)")
-        p1 = input("What is the load on the beam in units of lbs")
+        l1 = float(input("What is the length of the beam (in ft)"))
+        x1 = float(input("Where is the load on the beam, starting with 0 on the left side (in ft)"))
+        p1 = float(input("What is the load on the beam in units of lbs"))
+        mgiven = -p1 * (l1 - x)
+        slope, deflection = values(mgiven, E, I)
+        print(slope)
+        print(deflection)
     elif beamload == 'ul':
-        l2 = input("What is the length of the beam (in ft)")
-        x2 = input("Where do you want to measure the deflection of the beam (in ft)")
-        w2 = input("What is the magnitude of the distributed load on the beam in units of lbs / ft")
+        l2 = float(input("What is the length of the beam (in ft)"))
+        x2 = float(input("Where do you want to measure the deflection of the beam (in ft)"))
+        w2 = float(input("What is the magnitude of the distributed load on the beam in units of lbs / ft"))
         w2 = w2 * l2
+        mgiven = (-w * (l - x)**2) / 2
     elif beamload == 'm':
-        l3 = input("What is the length of the beam (in ft)")
-        x3 = input("Where is the moment on the beam, starting with 0 on the left side (in ft)")
-        m03 = input("What is the applied moment on this beam, in units of ft * lbs")
-
+        l3 = float(input("What is the length of the beam (in ft)"))
+        x3 = float(input("Where is the moment on the beam, starting with 0 on the left side (in ft)"))
+        m03 = float(input("What is the applied moment on this beam, in units of ft * lbs"))
+        mgiven = -m03
