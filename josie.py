@@ -43,10 +43,12 @@ request = Input.lower()
 dtype = type(request)
 if dtype == str:
     if request == 'yes':
-        x=3 #ethan+jacob code
+        #ethan+jacob code
     elif request == 'no':
-        x= 4#jacob's code
+        #jacob's code
     else:
         print('Please input valid answer of yes or no.')
 else:
     print('Please input valid answer of type string.')
+
+
