@@ -170,5 +170,5 @@ if beamtype == 'c':
         print(f'The slope value at the point {evalpoint} is {slopeval}')
         print(f'The deflection value at the point {evalpoint} is {deflecval}')
         print(f"The moment equation is {mgiven}")
-        print(f"The shear equation is {shear}")
+        print(f"The shear equation is {shear}.")
 
