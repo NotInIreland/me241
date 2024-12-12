@@ -38,6 +38,15 @@ def W(dimension):
             W = 'Unreadable input. Please input dimesion of standard designation including spaces. Example: W # x #.'
     return W
 
-
-
-
+Input = input('Would you like an additional graphical answer, yes/no?')
+request = Input.lower()
+dtype = type(request)
+if dtype == str:
+    if request == 'yes':
+        x=3 #ethan+jacob code
+    elif request == 'no':
+        x= 4#jacob's code
+    else:
+        print('Please input valid answer of yes or no.')
+else:
+    print('Please input valid answer of type string.')
