@@ -53,28 +53,27 @@ def W(dimension):
             W = 'Unreadable input. Please input dimesion of standard designation including spaces. Example: W # x #.'
     return W
 
-def slopecalculate(mgiven, E, I):
+def slopecalculate(mgiven, E, I): #slope integration of the moment function with respect to x
     return integrate(mgiven / (E * I), x) + c1
      
-def defleccalculate(slopeq):
+def defleccalculate(slopeq): #deflection integration of the moment function with respect to x
     return integrate(slopeq, x) + c2 
 
-def values(mgiven, E, I, epointi):
-    slopeq = slopecalculate(mgiven, E, I)
-    deflecq = defleccalculate(slopeq)
+def values(mgiven, E, I, epointi): #values function to sub in values to remove variables
+    slopeq = slopecalculate(mgiven, E, I) #calls slope function
+    deflecq = defleccalculate(slopeq) #calls deflection function
 
-    slopeb = slopeq.subs(x, 0)
+    slopeb = slopeq.subs(x, 0) #boundary conditions of function, set up for solving c1
     deflecb = deflecq.subs(x, 0)
 
-    c1val = solve(slopeb, c1)[0]
-    c2val = solve(deflecb, c2)[0]
+    c1val = solve(slopeb, c1)[0] #solves for c1 with boundary conditions
+    c2val = solve(deflecb, c2)[0] #colves for c2 with boundary conditions
 
-    slopec = slopeq.subs(c1, c1val)
-    deflectionc = deflecq.subs({c1: c1val, c2: c2val})
-    slopeval = slopec.subs(x, epointi).evalf()
-    deflecval = deflectionc.subs(x, epointi).evalf()
-    return slopeval, deflecval, slopec, deflectionc
-
+    slopec = slopeq.subs(c1, c1val) #subs in c1 into function, slopec is purely in variable form at this moment
+    deflectionc = deflecq.subs({c1: c1val, c2: c2val}) #same as above, with the exception of subbing in c1 and c2
+    slopeval = slopec.subs(x, epointi).evalf() #evaluates the function at the given point of epointi (evalpoint in inches for consistent units) for slope and deflection
+    deflecval = deflectionc.subs(x, epointi).evalf() 
+    return slopeval, deflecval, slopec, deflectionc #returning both the evaluated functions and the non-evaluated functions
 
 Input = input('Would you like to solve graphically?, yes/no?')
 request = Input.lower()
